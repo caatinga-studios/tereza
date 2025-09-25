@@ -21,8 +21,20 @@ function Stream:filter(predicate: Types.Predicate)
     return Stream.create(filteredTable)
 end
 
+function Stream:map(mapper: Types.Function)
+    local mappedValues = {}
+    for _, value in pairs(self.originTable) do 
+        table.insert(mappedValues, mapper(value))
+    end
+    return Stream.create(mappedValues)
+end
+
 function Stream:collect()
     return self.originTable
+end
+
+function Stream:count() 
+    return #self.originTable
 end
 
 table.freeze(Stream)
