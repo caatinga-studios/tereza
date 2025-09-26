@@ -1,16 +1,23 @@
 
 export type Predicate = (any) -> boolean
 export type Function = (any) -> any
+export type Consumer = (any) -> never
+export type Comparator = (first: any, second: any) -> boolean
+
 
 export type Stream = {
     originTable: {any},
 
-    create: ({}) -> Stream,
+    of: ({}) -> Stream,
     filter: (any, Predicate) -> Stream,
     map: (any, Function) -> Stream,
+    sorted: (any, Comparator) -> Stream,
 
     collect: () -> {any},
-    count: () -> number
+    count: () -> number,
+    findFirst: () -> any,
+
+    forEach: (any, Consumer) -> never
 }
 
 export type Tereza = {
