@@ -13,4 +13,5 @@ function DeepClone.clone(tab: {})
     return clone
 end
 
+table.freeze(DeepClone)
 return DeepClone

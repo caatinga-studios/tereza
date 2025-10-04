@@ -2,7 +2,8 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Types = require(script.Parent.Types)
 local clone = require(script.Parent.DeepClone).clone
-local selectionSort = require(ReplicatedStorage.Libs.Tereza.Sort).selectionSort
+local selectionSort = require(script.Parent.Sort).selectionSort
+local quickSort = require(script.Parent.Sort).quickSort
 
 local Stream = {
     originTable = nil
@@ -10,8 +11,15 @@ local Stream = {
 
 function Stream.of(originTable: {})
     local stream = clone(Stream)
-    stream.originTable = originTable
+    stream.originTable = clone(originTable)
 
+    return stream
+end
+
+function Stream.empty()
+    local stream = clone(Stream)
+    stream.originTable = {}
+    
     return stream
 end
 
@@ -39,8 +47,7 @@ function Stream:sorted(comparator: Types.Comparator)
     if(#self.originTable <= 25) then 
         sorted = selectionSort(self.originTable, comparator)
     else
-        sorted = selectionSort(self.originTable, comparator)
-        -- TODO: use a good algorithm for larger data sets
+        sorted = quickSort(self.originTable, comparator)
     end
 
     return Stream.of(sorted)
